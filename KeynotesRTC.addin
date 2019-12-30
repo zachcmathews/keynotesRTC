@@ -6,7 +6,7 @@
 
     <Name>KeynotesRTC</Name>
 
-    <Assembly>KeynotesRTC\KeynotesRTC.dll</Assembly>
+    <Assembly>Keynotes\KeynotesRTC.dll</Assembly>
 
     <AddInId>31784ece-cf44-49b3-a79f-1b1a3e2b5714</AddInId>
 
@@ -14,7 +14,7 @@
 
     <VendorId>com.zacharymathews</VendorId>
 
-    <VendorDescription>Zachary Mathews</VendorDescription>
+    <VendorDescription>Zachary Mathews, zacharymathews.com</VendorDescription>
 
   </AddIn>
 
@@ -23,21 +23,23 @@
     <Text>KeynotesRTC</Text>
 
     <Description>Enables real-time collaboration on keynotes.</Description>
-    
+
     <Assembly>KeynotesRTC\KeynotesRTC.dll</Assembly>
-    
+
     <AddInId>4d8522dc-624d-4845-af05-77bc5c18adfd</AddInId>
-    
+
     <FullClassName>KeynotesRTC.Command</FullClassName>
-    
+
     <VendorId>com.zacharymathews</VendorId>
-    
+
     <VendorDescription>Zachary Mathews, zacharymathews.com</VendorDescription>
 
+    <Discipline>Any</Discipline>
+
     <VisibilityMode>NotVisibleWhenNoActiveDocument</VisibilityMode>
-    
+
     <VisibilityMode>NotVisibleInFamily</VisibilityMode>
-    
+
   </AddIn>
 
 </RevitAddIns>

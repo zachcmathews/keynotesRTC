@@ -20,7 +20,7 @@ C:\Users\Zach\source\repos\keynotesRTC\bin\Debug\Serilog.Extensions.Logging.xml
 C:\Users\Zach\source\repos\keynotesRTC\bin\Debug\Serilog.Sinks.File.pdb
 C:\Users\Zach\source\repos\keynotesRTC\bin\Debug\Serilog.Sinks.File.xml
 C:\Users\Zach\source\repos\keynotesRTC\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
-C:\Users\Zach\source\repos\keynotesRTC\obj\Debug\keynotesRTC.csprojAssemblyReference.cache
-C:\Users\Zach\source\repos\keynotesRTC\obj\Debug\keynotesRTC.csproj.CopyComplete
+C:\Users\Zach\source\repos\keynotesRTC\obj\Debug\KeynotesRTC.csproj.CopyComplete
 C:\Users\Zach\source\repos\keynotesRTC\obj\Debug\KeynotesRTC.dll
 C:\Users\Zach\source\repos\keynotesRTC\obj\Debug\KeynotesRTC.pdb
+C:\Users\Zach\source\repos\keynotesRTC\obj\Debug\KeynotesRTC.csprojAssemblyReference.cache

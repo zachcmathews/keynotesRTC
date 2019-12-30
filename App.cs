@@ -16,7 +16,7 @@ namespace KeynotesRTC
     public class App : IExternalApplication
     {
         private Dictionary<int, TrackedDocument> trackedDocuments = new Dictionary<int, TrackedDocument>();
-
+        
         // Interface
         public Result OnStartup(UIControlledApplication uiapp)
         {

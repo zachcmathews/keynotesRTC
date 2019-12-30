@@ -1,11 +1,14 @@
 ﻿using System.Text;
 using System.IO;
-using System.Net;
+using System.Diagnostics;
+using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 
 namespace KeynotesRTC
 {
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
     public class Command : IExternalCommand
     {
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
@@ -19,15 +22,22 @@ namespace KeynotesRTC
             string keynotesDir = keynotesPath.Substring(0, keynotesPath.LastIndexOf('\\') + 1);
             string keynotesFile = keynotesPath.Substring(keynotesPath.LastIndexOf('\\') + 1);
 
-            string lockFile = $"{keynotesDir}\\.{keynotesFile}.lock";
+            string lockFile = $"{keynotesDir}.{keynotesFile}.lock";
             if (File.Exists(lockFile))
             {
-                string portal = File.ReadAllText(lockFile, Encoding.UTF8).Trim();
-                WebRequest.Create(portal);
+                string uri = File.ReadAllText(lockFile, Encoding.UTF8).Trim();
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.UseShellExecute = true;
+                info.FileName = uri;
+                Process.Start(info);
             }
             else
             {
-                WebRequest.Create($"atom://teletype-revit-linker/new?file={keynotesPath}");
+                string uri = $"atom://teletype-revit-linker/new?file={keynotesPath}";
+                ProcessStartInfo info = new ProcessStartInfo();
+                info.UseShellExecute = true;
+                info.FileName = uri;
+                Process.Start(info);
             }
 
             return Result.Succeeded;
