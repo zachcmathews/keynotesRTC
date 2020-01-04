@@ -6,7 +6,7 @@
 
     <Name>KeynotesRTC</Name>
 
-    <Assembly>Keynotes\KeynotesRTC.dll</Assembly>
+    <Assembly>KeynotesRTC\KeynotesRTC.dll</Assembly>
 
     <AddInId>31784ece-cf44-49b3-a79f-1b1a3e2b5714</AddInId>
 

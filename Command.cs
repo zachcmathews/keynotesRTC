@@ -19,10 +19,7 @@ namespace KeynotesRTC
 
             KeynoteTable keynoteTable = KeynoteTable.GetKeynoteTable(doc);
             string keynotesPath = ModelPathUtils.ConvertModelPathToUserVisiblePath(keynoteTable.GetExternalFileReference().GetAbsolutePath());
-            string keynotesDir = keynotesPath.Substring(0, keynotesPath.LastIndexOf('\\') + 1);
-            string keynotesFile = keynotesPath.Substring(keynotesPath.LastIndexOf('\\') + 1);
-
-            string lockFile = $"{keynotesDir}.{keynotesFile}.lock";
+            string lockFile = $"{keynotesPath}.lock";
             if (File.Exists(lockFile))
             {
                 string uri = File.ReadAllText(lockFile, Encoding.UTF8).Trim();

@@ -128,36 +128,26 @@ namespace KeynotesRTC
                     if (TransactionStatus.Started == transaction.Start("Reload keynote table"))
                     {
                         KeyBasedTreeEntriesLoadResults reloadResults = new KeyBasedTreeEntriesLoadResults();
+                        ExternalResourceLoadStatus reloadStatus = keynoteTable.Reload(reloadResults);               // reload the keynotes table
 
-                        try
+                        if (ExternalResourceLoadStatus.Success == reloadStatus)
                         {
-                            ExternalResourceLoadStatus reloadStatus = keynoteTable.Reload(reloadResults);               // reload the keynotes table
-
-                            if (ExternalResourceLoadStatus.Success == reloadStatus || ExternalResourceLoadStatus.ResourceAlreadyCurrent == reloadStatus)
+                            if (TransactionStatus.Committed == transaction.Commit())                                // commit the transaction
                             {
-                                if (TransactionStatus.Committed == transaction.Commit())
-                                {
-                                    keynotesFileChanged = false;                                                        // reset the flag
-                                }
-                                else
-                                {
-                                    Log.Warning($"Could not commit transaction for document {documentPath}");
-                                }
+                                keynotesFileChanged = false;                                                        // reset the flag
                             }
                             else
                             {
-                                Log.Warning($"Could not reload keynotes table for document {documentPath} from file at {keynotesPath}");
+                                Log.Error($"Could not commit transaction for document {documentPath}");
                             }
                         }
-                        catch (Exception e)
+                        else
                         {
-                            Log.Error($"Could not reload keynotes table for document {documentPath} from file at {keynotesPath}");
-                            Log.Error(e.StackTrace);
+                            if (TransactionStatus.RolledBack != transaction.RollBack())                             // rollback the transaction
+                            {
+                                Log.Error($"Could not rollback transaction for document {documentPath}");
+                            }
                         }
-                    }
-                    else
-                    {
-                        Log.Warning($"Could not start transaction for document at {documentPath}");
                     }
                 }
             }
@@ -171,43 +161,32 @@ namespace KeynotesRTC
             stopTracking = false;
 
             // Get the keynotes path, directory, and file name 
-            try
+            if (keynoteTable.IsExternalFileReference())
             {
-                keynotesPath = ModelPathUtils.ConvertModelPathToUserVisiblePath(keynoteTable.GetExternalFileReference().GetAbsolutePath());
-                keynotesDir = keynotesPath.Substring(0, keynotesPath.LastIndexOf('\\'));
-                keynotesFile = keynotesPath.Substring(keynotesPath.LastIndexOf('\\') + 1);
+                ModelPath keynotesModelPath = keynoteTable.GetExternalFileReference().GetAbsolutePath();
+                if (!keynotesModelPath.Empty)
+                {
+                    keynotesPath = ModelPathUtils.ConvertModelPathToUserVisiblePath(keynotesModelPath);
+                    keynotesDir = keynotesPath.Substring(0, keynotesPath.LastIndexOf('\\'));
+                    keynotesFile = keynotesPath.Substring(keynotesPath.LastIndexOf('\\') + 1);
+                }
+                else
+                {
+                    Log.Error($"No keynotes file for the document {documentPath}");
+                    stopTracking = true;
+                }
             }
-            catch (ArgumentNullException e)
+            else
             {
-                Log.Error($"Could not get keynotes file for the document at {documentPath}");
-                Log.Error(e.StackTrace);
-                stopTracking = true;
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                Log.Error($"Could not deduce keynotes directory and/or file from given path {keynotesPath} for the document at {documentPath}");
-                Log.Error(e.StackTrace);
-                stopTracking = true;
-            }
-            catch (Exception e)
-            {
-                Log.Error($"Error while trying to get keynote path for document at {documentPath}");
-                Log.Error(e.StackTrace);
+                Log.Error($"Keynote table not an external file reference for document {documentPath}");
                 stopTracking = true;
             }
 
+            // Start tracking if flag was not set in the logic above
             if (!stopTracking)
             {
-                try
-                {
-                    tracker = new Thread(Track);
-                    tracker.Start();
-                }
-                catch (Exception e)
-                {
-                    Log.Error($"Could not start tracker thread for document at {documentPath}");
-                    Log.Error(e.StackTrace);
-                }
+                tracker = new Thread(Track);
+                tracker.Start();
             }
         }
         private void StopTracking()
@@ -215,17 +194,9 @@ namespace KeynotesRTC
             // Stop the tracker
             stopTracking = true;
             keynotesFileChanged = false;
-            try
+            if (tracker.IsAlive)
             {
-                if (tracker.IsAlive)
-                {
-                    tracker.Join();
-                }
-            }
-            catch (Exception e)
-            {
-                Log.Error($"Could not stop tracker for document at {documentPath}. It may have already been stopped or never created.");
-                Log.Error(e.StackTrace);
+                tracker.Join();
             }
         }
         public void RestartTracking()
@@ -237,16 +208,17 @@ namespace KeynotesRTC
         {
             using (FileSystemWatcher fsWatcher = new FileSystemWatcher())
             {
+                fsWatcher.Path = keynotesDir;                                   // directory to watch
+                fsWatcher.Filter = keynotesFile;                                // file to watch
+
+                fsWatcher.NotifyFilter = NotifyFilters.LastWrite;               // listen for writes
+                fsWatcher.Changed += delegate
+                {
+                    keynotesFileChanged = true;                                 // set the flag
+                };
+
                 try
                 {
-                    fsWatcher.Path = keynotesDir;                               // directory to watch
-                    fsWatcher.Filter = keynotesFile;                            // file to watch
-
-                    fsWatcher.NotifyFilter = NotifyFilters.LastWrite;           // listen for writes
-                    fsWatcher.Changed += delegate
-                    {
-                        keynotesFileChanged = true;                             // set the flag
-                    };
                     fsWatcher.EnableRaisingEvents = true;                       // start watching
                 }
                 catch (FileNotFoundException e)
