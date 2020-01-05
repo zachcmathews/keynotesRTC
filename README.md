@@ -11,4 +11,4 @@ I have only tested the add-in on Revit 2019, but my hunch is it should work on a
 ## High-Level Implementation Details
 The add-in determines which keynote files are currently being edited on a shared network drive using dummy files with the 
 .lock file extension. These files contain an atom teletype URI which is used to connect subsequent editors to the collaborative 
-editing session. This collaborative session is created and destroyed automatically by the teletype-revit-linker package.
+editing session. This collaborative session is created and destroyed automatically by the teletype-revit-linker package along with the dummy .lock files.
