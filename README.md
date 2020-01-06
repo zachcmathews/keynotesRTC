@@ -6,8 +6,6 @@ Extract the contents to your `C:\ProgramData\Autodesk\Revit\Addins\2019` folder.
 See the [teletype-revit-linker repository](https://github.com/zachcmathews/teletype-revit-linker) for subsequent 
 installation instructions.
 
-I have only tested the add-in on Revit 2019, but my hunch is it should work on any version with keynote functionality.
-
 ## High-Level Implementation Details
 The add-in determines which keynote files are currently being edited on a shared network drive using dummy files with the 
 .lock file extension. These files contain an atom teletype URI which is used to connect subsequent editors to the collaborative 
