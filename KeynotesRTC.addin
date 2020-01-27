@@ -2,22 +2,6 @@
 
 <RevitAddIns>
 
-  <AddIn Type="Application">
-
-    <Name>KeynotesRTC</Name>
-
-    <Assembly>KeynotesRTC\KeynotesRTC.dll</Assembly>
-
-    <AddInId>31784ece-cf44-49b3-a79f-1b1a3e2b5714</AddInId>
-
-    <FullClassName>KeynotesRTC.App</FullClassName>
-
-    <VendorId>com.zacharymathews</VendorId>
-
-    <VendorDescription>Zachary Mathews, zacharymathews.com</VendorDescription>
-
-  </AddIn>
-
   <AddIn Type="Command">
 
     <Text>KeynotesRTC</Text>
