@@ -23,3 +23,7 @@ C:\Users\Zach\source\repos\keynotesRTC\bin\Release\System.Runtime.CompilerServic
 C:\Users\Zach\source\repos\keynotesRTC\obj\Release\KeynotesRTC.csproj.CopyComplete
 C:\Users\Zach\source\repos\keynotesRTC\obj\Release\KeynotesRTC.dll
 C:\Users\Zach\source\repos\keynotesRTC\obj\Release\KeynotesRTC.pdb
+C:\Users\zacha\source\repos\keynotesRTC\bin\Release\KeynotesRTC.dll
+C:\Users\zacha\source\repos\keynotesRTC\bin\Release\KeynotesRTC.pdb
+C:\Users\zacha\source\repos\keynotesRTC\obj\Release\KeynotesRTC.dll
+C:\Users\zacha\source\repos\keynotesRTC\obj\Release\KeynotesRTC.pdb

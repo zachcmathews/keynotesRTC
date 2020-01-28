@@ -1,0 +1,4 @@
+C:\Users\zacha\source\repos\keynotesRTC\bin\Debug\KeynotesRTC.dll
+C:\Users\zacha\source\repos\keynotesRTC\bin\Debug\KeynotesRTC.pdb
+C:\Users\zacha\source\repos\keynotesRTC\obj\Debug\KeynotesRTC.dll
+C:\Users\zacha\source\repos\keynotesRTC\obj\Debug\KeynotesRTC.pdb
